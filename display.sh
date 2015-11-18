@@ -1,3 +1,3 @@
 #!/bin/bash
 
-fbi -a -t 10 images/
+fbi -a -t 10 images/*
