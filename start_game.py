@@ -26,7 +26,7 @@ if option == 0:
 	print "No option chosen."
 	sys.exit(0)
 
-engine = create_engine('sqlite:///hoff.db', echo=True)
+engine = create_engine('sqlite:///hoff.db')
 Session = sessionmaker(bind=engine)
 session = Session()
 Base.metadata.create_all(engine)

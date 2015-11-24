@@ -9,7 +9,7 @@ from models import Base, Question, QuestionOption
 import datetime
 import sys
 
-engine = create_engine('sqlite:///hoff.db', echo=True)
+engine = create_engine('sqlite:///hoff.db')
 Session = sessionmaker(bind=engine)
 session = Session()
 Base.metadata.create_all(engine)

@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker
 from headlines import get_headline_options
 from models import Base, Question, QuestionOption
 
-engine = create_engine('sqlite:///hoff.db', echo=True)
+engine = create_engine('sqlite:///hoff.db')
 Session = sessionmaker(bind=engine)
 session = Session()
 Base.metadata.create_all(engine)
@@ -29,3 +29,4 @@ for i,headline in enumerate(headlines):
 	text += option+"\n"
 session.commit()
 api.send_direct_message(screen_name='mikejewell', text=text)
+api.send_direct_message(screen_name='jkittley', text=text)
