@@ -13,6 +13,7 @@ class Question(Base):
 	answer = Column(String(20))
 	solver = Column(String(20))
 	solvetime = Column(DateTime())
+	status = Column(Integer)
 
 class QuestionOption(Base):
 	__tablename__ = 'questionoption'

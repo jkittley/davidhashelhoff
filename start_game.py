@@ -38,12 +38,14 @@ if question_options.count() == 0:
 	sys.exit(0)
 
 question_option = question_options[0]
+
+status = api.update_status(question_option.question)
+
 question = Question(datestamp=today, 
 	headline=question_option.headline, 
 	question=question_option.question, 
-	answer=question_option.answer)
+	answer=question_option.answer,
+	status=status.id)
 
 session.add(question)
 session.commit()
-
-api.update_status(question_option.question)
