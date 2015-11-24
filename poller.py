@@ -26,7 +26,7 @@ if curr_question.solver:
 	# Already solved.
 	sys.exit(0)
 
-end_time = datetime.datetime.combine(datetime.date.today(), datetime.time(14,00))
+end_time = datetime.datetime.combine(datetime.date.today(), datetime.time(18,00))
 if datetime.datetime.now() > end_time:
 	api.update_status("No-one rang my bell :( I was looking for: "+curr_question.answer)
 	curr_question.solver = 'davidhashelhoff'
