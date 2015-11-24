@@ -18,7 +18,7 @@ dms = api.direct_messages()
 today = datetime.datetime.combine(datetime.date.today(), datetime.time(9))
 print today
 option = 0
-for dm in dms:
+for dm in reversed(dms):
 	if dm.created_at > today:
 		option = int(dm.text)
 
