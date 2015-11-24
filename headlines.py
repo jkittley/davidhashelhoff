@@ -39,7 +39,8 @@ def get_headline_options(n):
 			if len(pieces) == 0:
 				continue
 			for piece in pieces:
-				options.append((headline.replace(piece,'The Hoff'), piece))
+				if len(options) < n:
+					options.append((headline, headline.replace(piece,'The Hoff'), piece))
 			articles_added += 1
 		offset += len(data)
 	return options
