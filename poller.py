@@ -32,7 +32,7 @@ if curr_question.solver:
 	game_over = True
 
 end_time = datetime.datetime.combine(datetime.date.today(), datetime.time(18,00))
-if datetime.datetime.now() > end_time:
+if datetime.datetime.now() > end_time and not game_over:
 	no_winners = random.choice(STRINGS['no_winners'])
 	no_winners = no_winners.replace('{{ ANSWER }}', curr_question.answer)
 	if not DEBUG:
