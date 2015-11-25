@@ -2,14 +2,12 @@
 
 import os
 import tweepy
+from settings import DB_PATH, DEBUG
 from game_secrets import *
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from headlines import get_headline_options
 from models import Base, Question, QuestionOption
-
-HASH_HOME = os.path.dirname(os.path.realpath(__file__))
-DB_PATH = 'sqlite:///'+HASH_HOME+'/hoff.db'
 
 engine = create_engine(DB_PATH)
 Session = sessionmaker(bind=engine)
@@ -32,5 +30,9 @@ for i,headline in enumerate(headlines):
 	option = "(%d) %s [%s]" % (i+1, question, answer)
 	text += option+"\n"
 session.commit()
-api.send_direct_message(screen_name='mikejewell', text=text)
-api.send_direct_message(screen_name='jkittley', text=text)
+
+if not DEBUG:
+	api.send_direct_message(screen_name='mikejewell', text=text)
+	api.send_direct_message(screen_name='jkittley', text=text)
+else:
+	print text

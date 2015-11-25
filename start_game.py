@@ -4,14 +4,13 @@ import tweepy
 import datetime
 import sys
 import os
+import random
 from game_secrets import *
+from settings import DB_PATH, DEBUG, STRINGS
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from headlines import get_headline_options
 from models import Base, Question, QuestionOption
-
-HASH_HOME = os.path.dirname(os.path.realpath(__file__))
-DB_PATH = 'sqlite:///'+HASH_HOME+'/hoff.db'
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -42,13 +41,21 @@ if question_options.count() == 0:
 
 question_option = question_options[0]
 
-status = api.update_status(question_option.question)
+game_start = random.choice(STRINGS['game_start']) 
+if not DEBUG:
+	api.update_status(game_start)
+	status_id = api.update_status(question_option.question).id
+else:
+	print game_start
+	print question_option.question
+	# Hardcoded ID for now
+	status_id = 669476778105249792
 
 question = Question(datestamp=today, 
 	headline=question_option.headline, 
 	question=question_option.question, 
 	answer=question_option.answer,
-	status=status.id)
+	status=status_id)
 
 session.add(question)
 session.commit()

@@ -1,3 +1,9 @@
+import os
+
+DEBUG = os.getenv('DEBUG', False)
+HASH_HOME = os.path.dirname(os.path.realpath(__file__))
+DB_PATH = 'sqlite:///'+HASH_HOME+'/hoff.db'
+
 STRINGS = {
     'wrong_answer': [
         "Nope {{ PLAYER }}",
@@ -53,5 +59,3 @@ STRINGS = {
         "Go ahead, make my day... and play tomorrow. Someone has already won."
     ]
 }
-
-

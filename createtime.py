@@ -4,7 +4,7 @@ from PIL import ImageDraw
 from datetime import datetime
 import os
 
-HASH_HOME = os.path.dirname(os.path.realpath(__file__))
+from settings import HASH_HOME
 
 img = Image.open(HASH_HOME+"/templates/time.jpg")
 
