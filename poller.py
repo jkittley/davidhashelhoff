@@ -5,9 +5,10 @@ import datetime
 import sys
 import os
 import random
+from subprocess import call
 from game_secrets import *
 
-from settings import DB_PATH, STRINGS, DEBUG
+from settings import DB_PATH, STRINGS, DEBUG, HASH_HOME
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker
 from headlines import get_headline_options
@@ -60,6 +61,7 @@ for mention in reversed(mentions):
 			right_answer = right_answer.replace('{{ WINNER }}', "@"+username)
 			if not DEBUG:
 				api.update_status(right_answer)
+				call(["sudo",HASH_HOME+"/servo.py"])
 			else:
 				print right_answer
 			curr_question.solver = username
