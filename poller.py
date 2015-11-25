@@ -5,6 +5,7 @@ import datetime
 import sys
 import os
 import random
+import re
 from game_secrets import *
 
 from settings import DB_PATH, STRINGS, DEBUG
@@ -45,7 +46,7 @@ mentions = api.mentions_timeline(count=50, since_id=curr_question.status)
 
 for mention in reversed(mentions):
 	text = mention.text.lower()
-	text = text.replace('@davidhashelhoff', '').strip()
+	text = re.sub(r'([^a-zA-Z\s]+)','',text.replace('@davidhashelhoff', '').strip())
 	username = mention.user.screen_name
 
 	if game_over:
