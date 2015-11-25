@@ -6,9 +6,10 @@ import sys
 import os
 import random
 import re
+from subprocess import call
 from game_secrets import *
 
-from settings import DB_PATH, STRINGS, DEBUG
+from settings import DB_PATH, STRINGS, DEBUG, HASH_HOME
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker
 from headlines import get_headline_options
@@ -32,7 +33,7 @@ if curr_question.solver:
 	game_over = True
 
 end_time = datetime.datetime.combine(datetime.date.today(), datetime.time(18,00))
-if datetime.datetime.now() > end_time:
+if datetime.datetime.now() > end_time and not game_over:
 	no_winners = random.choice(STRINGS['no_winners'])
 	no_winners = no_winners.replace('{{ ANSWER }}', curr_question.answer)
 	if not DEBUG:
@@ -61,6 +62,7 @@ for mention in reversed(mentions):
 			right_answer = right_answer.replace('{{ WINNER }}', "@"+username)
 			if not DEBUG:
 				api.update_status(right_answer)
+				call(["sudo",HASH_HOME+"/servo.py"])
 			else:
 				print right_answer
 			curr_question.solver = username
