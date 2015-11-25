@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 
 import tweepy
+import datetime
+import sys
+import os
 from game_secrets import *
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from headlines import get_headline_options
 from models import Base, Question, QuestionOption
-import datetime
-import sys
+
+HASH_HOME = os.path.dirname(os.path.realpath(__file__))
+DB_PATH = 'sqlite:///'+HASH_HOME+'/hoff.db'
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -26,7 +30,7 @@ if option == 0:
 	print "No option chosen."
 	sys.exit(0)
 
-engine = create_engine('sqlite:///hoff.db')
+engine = create_engine(DB_PATH)
 Session = sessionmaker(bind=engine)
 session = Session()
 Base.metadata.create_all(engine)

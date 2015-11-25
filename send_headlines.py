@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 import tweepy
 from game_secrets import *
 from sqlalchemy import create_engine
@@ -7,7 +8,10 @@ from sqlalchemy.orm import sessionmaker
 from headlines import get_headline_options
 from models import Base, Question, QuestionOption
 
-engine = create_engine('sqlite:///hoff.db')
+HASH_HOME = os.path.dirname(os.path.realpath(__file__))
+DB_PATH = 'sqlite:///'+HASH_HOME+'/hoff.db'
+
+engine = create_engine(DB_PATH)
 Session = sessionmaker(bind=engine)
 session = Session()
 Base.metadata.create_all(engine)
