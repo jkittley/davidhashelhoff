@@ -11,10 +11,6 @@ from settings import HASH_HOME
 images_dir   = os.path.join(HASH_HOME,'images/')
 template_dir = os.path.join(HASH_HOME,'templates/')
 
-# Remove all previous time images
-for filename in glob.glob(os.path.join(images_dir,'time_*')):
-    os.remove(filename) 
-
 # Load template image
 tempalate_img = Image.open(os.path.join(template_dir,'time.jpg'))
 
@@ -28,4 +24,4 @@ draw.text((330, 120), currently.strftime("%d/%m/%Y"), (0,0,0), font=font)
 # Save it
 tmp = os.path.join(HASH_HOME,'tmp_time_image.jpg')
 tempalate_img.save(tmp)
-shutil.copyfile(tmp, os.path.join(images_dir, 'time_'+ currently.strftime("%H_%M_%S")+'.jpg'))
+shutil.copyfile(tmp, os.path.join(images_dir, 'time.jpg'))
