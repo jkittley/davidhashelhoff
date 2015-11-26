@@ -26,6 +26,6 @@ draw.text((360, 40), currently.strftime("%H:%M:%S"), (0,0,0), font=font)
 draw.text((330, 120), currently.strftime("%d/%m/%Y"), (0,0,0), font=font)
 
 # Save it
-tmp = HASH_HOME+'tmp_time_image.jpg'
+tmp = os.path.join(HASH_HOME,'tmp_time_image.jpg')
 tempalate_img.save(tmp)
 shutil.copyfile(tmp, os.path.join(images_dir, 'time_'+ currently.strftime("%H_%M_%S")+'.jpg'))
