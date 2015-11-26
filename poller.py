@@ -50,7 +50,7 @@ for mention in reversed(mentions):
 	text = re.sub(r'([^a-zA-Z\s]+)','',text.replace('@davidhashelhoff', '').strip())
 	username = mention.user.screen_name
 
-	if username != 'davidhashelhoff':
+	if username != 'DavidHashelhoff':
 		if game_over:
 			already_over = random.choice(STRINGS['already_over'])
 			if not DEBUG:
