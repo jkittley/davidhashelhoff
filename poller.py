@@ -76,6 +76,8 @@ for mention in reversed(mentions):
 					api.update_status(wrong_answer)
 				else:
 					print wrong_answer
+	else:
+		print "Username == DavidHashelhoff"
 	curr_question.status = mention.id
 
 session.commit()
