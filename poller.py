@@ -46,38 +46,59 @@ if datetime.datetime.now() > end_time and not game_over:
 mentions = api.mentions_timeline(count=50, since_id=curr_question.status)
 
 for mention in reversed(mentions):
-	text = mention.text.lower()
-	text = re.sub(r'([^a-zA-Z\s]+)','',text.replace('@davidhashelhoff', '').strip())
-	username = mention.user.screen_name
 
-	if username != 'DavidHashelhoff':
-		if game_over:
+	twitter = True
+	if username == 'DavidHashelhoff':
+		twitter = False
+		text = mention.text.lower()
+		r = re.compile(r'^([a-zA-Z0-9]+)\ssuggested\s([a-zA-Z0-9\s]+)\s@DavidHashelhoff$')
+		groups = r.match(text)
+		username = groups[0]
+		text = groups[1]
+	else:
+		twitter = True
+		text = mention.text.lower()
+		text = re.sub(r'([^a-zA-Z\s]+)','',text.replace('@davidhashelhoff', '').strip())
+		username = mention.user.screen_name
+
+	if game_over:
+		if twitter:
 			already_over = random.choice(STRINGS['already_over'])
 			if not DEBUG:
 				api.update_status("@"+username+" "+already_over)
 			else:
 				print "@"+username+" "+already_over
 		else:
-			if curr_question.answer.lower() == text:
-				right_answer = random.choice(STRINGS['right_answer'])
-				right_answer = right_answer.replace('{{ WINNER }}', "@"+username)
-				if not DEBUG:
-					api.update_status(right_answer)
-					call(["sudo",HASH_HOME+"/servo.py"])
-				else:
-					print right_answer
-				curr_question.solver = username
-				curr_question.solvetime = datetime.datetime.now()
-				session.commit()
-			else:
-				wrong_answer = random.choice(STRINGS['wrong_answer'])
-				wrong_answer = wrong_answer.replace('{{ PLAYER }}', "@"+username)
-				if not DEBUG:
-					api.update_status(wrong_answer)
-				else:
-					print wrong_answer
+			continue
+
+	if curr_question.answer.lower() == text:
+		right_answer = random.choice(STRINGS['right_answer'])
+		if twitter:
+			right_answer = right_answer.replace('{{ WINNER }}', "@"+username)
+		else:
+			right_answer = right_answer.replace('{{ WINNER }}', username)
+
+		if not DEBUG:
+			api.update_status(right_answer)
+			call(["sudo",HASH_HOME+"/servo.py"])
+		else:
+			print right_answer
+		
+		curr_question.solver = username
+		curr_question.solvetime = datetime.datetime.now()
+		
+		session.commit()
 	else:
-		print "Username == DavidHashelhoff"
+		wrong_answer = random.choice(STRINGS['wrong_answer'])
+		if twitter:
+			wrong_answer = wrong_answer.replace('{{ PLAYER }}', "@"+username)
+		else:
+			wrong_answer = wrong_answer.replace('{{ PLAYER }}', username)
+		if not DEBUG:
+			api.update_status(wrong_answer)
+		else:
+			print wrong_answer
+
 	curr_question.status = mention.id
 
 session.commit()
