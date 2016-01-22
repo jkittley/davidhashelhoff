@@ -48,18 +48,19 @@ mentions = api.mentions_timeline(count=50, since_id=curr_question.status)
 for mention in reversed(mentions):
 
 	twitter = True
+	username = mention.user.screen_name
 	if username == 'DavidHashelhoff':
 		twitter = False
 		text = mention.text.lower()
-		r = re.compile(r'^([a-zA-Z0-9]+)\ssuggested\s([a-zA-Z0-9\s]+)\s@DavidHashelhoff$')
-		groups = r.match(text)
+		print text
+		r = re.compile(r'^([a-zA-Z0-9]+)\ssuggested\s([a-zA-Z0-9\s]+)\s@davidhashelhoff, is it right\?$')
+		groups = r.match(text).groups()
 		username = groups[0]
 		text = groups[1]
 	else:
 		twitter = True
 		text = mention.text.lower()
 		text = re.sub(r'([^a-zA-Z\s]+)','',text.replace('@davidhashelhoff', '').strip())
-		username = mention.user.screen_name
 
 	if game_over:
 		if twitter:
